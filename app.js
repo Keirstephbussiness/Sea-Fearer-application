@@ -67,8 +67,7 @@ function updateProgress() {
     }
   }
 
-  /* Update progress bar width */
-  var pct = ((currentStep - 1) / (TOTAL_STEPS - 1)) * 100;
+  var pct  = ((currentStep - 1) / (TOTAL_STEPS - 1)) * 100;
   var fill = document.getElementById('progressFill');
   var glow = document.getElementById('progressGlow');
   if (fill) fill.style.width = pct + '%';
@@ -103,12 +102,7 @@ function requireField(inputId, fieldId) {
   var el    = document.getElementById(inputId);
   var field = document.getElementById(fieldId);
   if (!el || !field) return true;
-
-  if (!el.value.trim()) {
-    field.classList.add('has-error');
-    return false;
-  }
-
+  if (!el.value.trim()) { field.classList.add('has-error'); return false; }
   field.classList.remove('has-error');
   return true;
 }
@@ -117,18 +111,12 @@ function requireEmail(inputId, fieldId) {
   var el    = document.getElementById(inputId);
   var field = document.getElementById(fieldId);
   if (!el || !field) return true;
-
   var valid = el.value.trim() && el.value.includes('@') && el.value.includes('.');
-  if (!valid) {
-    field.classList.add('has-error');
-    return false;
-  }
-
+  if (!valid) { field.classList.add('has-error'); return false; }
   field.classList.remove('has-error');
   return true;
 }
 
-/* Clear errors on input + auto-calculate age */
 document.addEventListener('DOMContentLoaded', function () {
   document.querySelectorAll('input, select, textarea').forEach(function (el) {
     el.addEventListener('input', function () {
@@ -152,7 +140,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* Initialize progress bar at step 1 */
   updateProgress();
 });
 
@@ -193,19 +180,18 @@ function removeFile(index) {
 function renderFileList() {
   var listEl = document.getElementById('fileList');
   if (!listEl) return;
-
   listEl.innerHTML = uploadedFiles.map(function (file, i) {
     return (
       '<div class="file-item">' +
         '<span>' + escapeHtml(file.name) + '</span>' +
-        '<button onclick="removeFile(' + i + ')" title="Remove file">&#10005;</button>' +
+        '<button onclick="removeFile(' + i + ')" title="Remove">&#10005;</button>' +
       '</div>'
     );
   }).join('');
 }
 
 /* ─────────────────────────────────────────────────
-   REVIEW POPULATION
+   REVIEW
    ───────────────────────────────────────────────── */
 
 function populateReview() {
@@ -218,9 +204,9 @@ function populateReview() {
   var parts = [getVal('fname'), getVal('mname'), getVal('lname'), getVal('suffix')].filter(Boolean);
   setText('rv-name', parts.join(' ') || '—');
 
-  setText('rv-dob',    formatDate(getVal('dob')));
-  var ageStr  = getVal('age')   ? getVal('age') + ' yrs'  : '';
-  var civStr  = getVal('civil') ? getVal('civil')          : '';
+  setText('rv-dob',     formatDate(getVal('dob')));
+  var ageStr = getVal('age')   ? getVal('age') + ' yrs'  : '';
+  var civStr = getVal('civil') ? getVal('civil')          : '';
   setText('rv-civil',   [ageStr, civStr].filter(Boolean).join(', ') || '—');
   setText('rv-address', getVal('address'));
   setText('rv-contact', getVal('contact'));
@@ -235,12 +221,10 @@ function populateReview() {
 function renderTags(containerId, items) {
   var el = document.getElementById(containerId);
   if (!el) return;
-
   if (!items.length) {
     el.innerHTML = '<span style="color:var(--text-muted);font-style:italic;">None selected</span>';
     return;
   }
-
   el.innerHTML = items.map(function (item) {
     return '<span class="rv-tag">' + escapeHtml(item) + '</span>';
   }).join('');
@@ -306,16 +290,13 @@ function generatePDF() {
 
   var y = 0;
 
-  /* Top gold rule */
   doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
   doc.rect(0, 0, W, 2.5, 'F');
   y = 2.5;
 
-  /* Header background */
   doc.setFillColor(NAVY[0], NAVY[1], NAVY[2]);
   doc.rect(0, y, W, 38, 'F');
 
-  /* Logo placeholder */
   doc.setFillColor(20, 32, 64);
   doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
   doc.setLineWidth(0.4);
@@ -346,7 +327,6 @@ function generatePDF() {
   doc.rect(0, y, W, 1.5, 'F');
   y += 8;
 
-  /* Helpers */
   function checkNewPage() {
     if (y > 264) { doc.addPage(); y = 20; }
   }
@@ -397,14 +377,12 @@ function generatePDF() {
     y += lines * 4.8 + 9;
   }
 
-  /* Section 1 */
   sectionHeader('1. Position Details');
   twoCol('Position Applied For', getVal('position'), 'Availability Date', formatDate(getVal('avail')));
   twoCol('Contract Duration', getVal('contract'), 'Sea Experience', getVal('experience'));
   oneCol('Remarks / Notes', getVal('notes1') || '—');
   y += 2;
 
-  /* Section 2 */
   sectionHeader('2. Personal Information');
   var fullName = [getVal('fname'), getVal('mname'), getVal('lname'), getVal('suffix')].filter(Boolean).join(' ') || '—';
   oneCol('Full Name', fullName);
@@ -415,7 +393,6 @@ function generatePDF() {
   if (getVal('emnum')) twoCol('Emergency Contact Name', getVal('emname'), 'Emergency Number', getVal('emnum'));
   y += 2;
 
-  /* Section 3 */
   sectionHeader('3. Documents & Training Certificates');
   var docs = getChecked('.doc-cb');
   var trns = getChecked('.trn-cb');
@@ -440,7 +417,6 @@ function generatePDF() {
   y += 10;
   checkNewPage();
 
-  /* Signature lines */
   doc.setDrawColor(GOLD[0], GOLD[1], GOLD[2]);
   doc.setLineWidth(0.5);
   doc.line(margin, y, margin + 70, y);
@@ -452,7 +428,6 @@ function generatePDF() {
   doc.text('Date', W - margin - 20, y + 4.5);
   y += 16;
 
-  /* Declaration */
   checkNewPage();
   doc.setFillColor(CREAM[0], CREAM[1], CREAM[2]);
   doc.rect(margin, y, W - margin * 2, 16, 'F');
@@ -467,7 +442,6 @@ function generatePDF() {
   doc.text(declLines, margin + 5, y + 5.5);
   y += 20;
 
-  /* Page footers */
   var pageCount = doc.internal.getNumberOfPages();
   for (var p = 1; p <= pageCount; p++) {
     doc.setPage(p);
@@ -500,23 +474,20 @@ function renderPDFList(items, doc, margin, startY, W, GOLD, DARK, MID) {
     doc.text('None selected', margin, startY);
     return;
   }
-
   var cols = 2;
   var colW = (W - margin * 2) / cols;
   var row  = 0;
   var col  = 0;
 
   items.forEach(function (item) {
-    var x = margin + col * colW;
+    var x  = margin + col * colW;
     var yy = startY + row * 5.5;
-
     doc.setFillColor(GOLD[0], GOLD[1], GOLD[2]);
     doc.circle(x + 2, yy - 1.2, 0.9, 'F');
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(9);
     doc.setTextColor(DARK[0], DARK[1], DARK[2]);
     doc.text(item, x + 5.5, yy);
-
     col++;
     if (col >= cols) { col = 0; row++; }
   });
