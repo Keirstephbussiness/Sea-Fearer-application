@@ -18,29 +18,30 @@ function _injectStyles() {
   if (document.getElementById('ttr-style')) return;
 
   var css = [
-    /* Dark overlay */
+    /* Dark overlay — NO blur so the spotlit stepper stays razor sharp */
     '#ttr-overlay{',
       'position:fixed;inset:0;z-index:9000;',
-      'background:rgba(5,15,35,.70);',
-      'backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);',
+      'background:transparent;',          /* overlay itself is transparent */
       'opacity:0;transition:opacity .35s;pointer-events:none;',
     '}',
     '#ttr-overlay.show{opacity:1;pointer-events:auto;}',
 
-    /* Spotlight cut-out around the stepper */
+    /* Spotlight: sits above the overlay and uses a massive inset box-shadow
+       to paint the dark surround. The element itself is transparent so the
+       stepper underneath shows through perfectly — no blur applied anywhere. */
     '#ttr-spotlight{',
       'position:fixed;z-index:9001;pointer-events:none;',
       'border-radius:12px;display:none;',
-      'box-shadow:0 0 0 9999px rgba(5,15,35,.70),',
-                 '0 0 0 3px #C9A84C,',
-                 '0 0 24px 4px rgba(201,168,76,.45);',
+      'background:transparent;',
+      'box-shadow:0 0 0 9999px rgba(5,15,35,.78),',
+                 '0 0 0 3px #C9A84C;',
       'transition:all .4s cubic-bezier(.4,0,.2,1);',
     '}',
     '@keyframes ttrPulse{',
-      '0%,100%{box-shadow:0 0 0 9999px rgba(5,15,35,.70),0 0 0 3px #C9A84C,0 0 24px 4px rgba(201,168,76,.45);}',
-      '50%{box-shadow:0 0 0 9999px rgba(5,15,35,.70),0 0 0 6px #e0bc5a,0 0 36px 10px rgba(201,168,76,.65);}',
+      '0%,100%{box-shadow:0 0 0 9999px rgba(5,15,35,.78),0 0 0 3px #C9A84C;}',
+      '50%{box-shadow:0 0 0 9999px rgba(5,15,35,.78),0 0 0 5px #f0d060;}',
     '}',
-    '#ttr-spotlight.pulse{animation:ttrPulse 1.8s ease-in-out infinite;}',
+    '#ttr-spotlight.pulse{animation:ttrPulse 2s ease-in-out infinite;}',
 
     /* Tooltip bubble */
     '#ttr-bubble{',
