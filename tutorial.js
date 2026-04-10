@@ -9,7 +9,37 @@
    • Fully standalone — does not touch app.js or validate.js.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-var STORAGE_KEY = 'ggsms_stepper_tip_done';
+var STORAGE_KEY  = 'ggsms_stepper_tip_done';
+var LANG_KEY     = 'ggsms_tutorial_lang';
+var currentLang  = 'en';
+
+/* ─────────────────────────────────────────────────
+   TRANSLATIONS
+   ───────────────────────────────────────────────── */
+var STRINGS = {
+  en: {
+    bubbleTitle : 'How to navigate this form',
+    body        : '👆 <strong>Click any numbered circle</strong> above to jump directly to that section and check its requirements anytime.',
+    pill1       : 'Position',
+    pill2       : 'Personal',
+    pill3       : 'Documents',
+    pill4       : 'Review',
+    gotIt       : 'Got it! ✓',
+    langBtn     : '🇵🇭 Filipino',
+    helpTip     : 'How to navigate'
+  },
+  tl: {
+    bubbleTitle : 'Paano mag-navigate sa form na ito',
+    body        : '👆 <strong>I-click ang alinmang bilog na may numero</strong> sa itaas upang direktang pumunta sa seksyong iyon at tingnan ang mga kinakailangan anumang oras.',
+    pill1       : 'Posisyon',
+    pill2       : 'Personal',
+    pill3       : 'Mga Dokumento',
+    pill4       : 'Suriin',
+    gotIt       : 'Nakuha ko! ✓',
+    langBtn     : '🇺🇸 English',
+    helpTip     : 'Paano mag-navigate'
+  }
+};
 
 /* ─────────────────────────────────────────────────
    STYLES
@@ -105,7 +135,7 @@ function _injectStyles() {
 
     /* Footer */
     '#ttr-bubble .ttr-foot{',
-      'padding:4px 18px 16px;display:flex;justify-content:flex-end;',
+      'padding:4px 18px 16px;display:flex;justify-content:space-between;align-items:center;gap:8px;',
     '}',
     '#ttr-bubble .ttr-btn{',
       'border:none;cursor:pointer;border-radius:8px;',
@@ -138,6 +168,17 @@ function _injectStyles() {
       'font-family:"Barlow",sans-serif;',
     '}',
     '#ttr-help:hover #ttr-help-tip{opacity:1;}',
+
+    /* Language toggle button inside bubble */
+    '#ttr-lang{',
+      'border:1.5px solid #dde6f5;background:#f5f8ff;',
+      'border-radius:20px;cursor:pointer;',
+      'font-size:11.5px;font-weight:700;color:#3a4a6b;',
+      'padding:4px 12px;font-family:inherit;',
+      'transition:all .2s;white-space:nowrap;',
+      'display:flex;align-items:center;gap:4px;',
+    '}',
+    '#ttr-lang:hover{background:#e8eef9;border-color:#b8c8e8;}',
   ].join('');
 
   var s = document.createElement('style');
@@ -169,25 +210,32 @@ function _buildDOM() {
   bubble.innerHTML = [
     '<div class="ttr-head">',
       '<span class="ttr-icon">🗺️</span>',
-      '<span class="ttr-title">How to navigate this form</span>',
+      '<span class="ttr-title" id="ttr-title">How to navigate this form</span>',
     '</div>',
     '<div class="ttr-strip"></div>',
-    '<div class="ttr-body">',
+    '<div class="ttr-body" id="ttr-body">',
       '👆 <strong>Click any numbered circle</strong> above to jump directly to that section and check its requirements anytime.',
     '</div>',
     '<div class="ttr-pills">',
-      '<div class="ttr-pill"><span class="ttr-pill-num">1</span>Position</div>',
-      '<div class="ttr-pill"><span class="ttr-pill-num">2</span>Personal</div>',
-      '<div class="ttr-pill"><span class="ttr-pill-num">3</span>Documents</div>',
-      '<div class="ttr-pill"><span class="ttr-pill-num">4</span>Review</div>',
+      '<div class="ttr-pill"><span class="ttr-pill-num">1</span><span id="ttr-p1">Position</span></div>',
+      '<div class="ttr-pill"><span class="ttr-pill-num">2</span><span id="ttr-p2">Personal</span></div>',
+      '<div class="ttr-pill"><span class="ttr-pill-num">3</span><span id="ttr-p3">Documents</span></div>',
+      '<div class="ttr-pill"><span class="ttr-pill-num">4</span><span id="ttr-p4">Review</span></div>',
     '</div>',
     '<div class="ttr-foot">',
+      '<button id="ttr-lang">🇵🇭 Filipino</button>',
       '<button class="ttr-btn" id="ttr-got-it">Got it! ✓</button>',
     '</div>',
   ].join('');
   document.body.appendChild(bubble);
 
   document.getElementById('ttr-got-it').addEventListener('click', _dismiss);
+  document.getElementById('ttr-lang').addEventListener('click', function (e) {
+    e.stopPropagation();
+    currentLang = (currentLang === 'en') ? 'tl' : 'en';
+    try { localStorage.setItem(LANG_KEY, currentLang); } catch(err) {}
+    _applyLang();
+  });
 
   /* Stop overlay click from dismissing when clicking the bubble */
   bubble.addEventListener('click', function (e) { e.stopPropagation(); });
@@ -211,6 +259,34 @@ function _buildDOM() {
       _positionElements();
     }
   });
+}
+
+
+/* ─────────────────────────────────────────────────
+   APPLY LANGUAGE
+   ───────────────────────────────────────────────── */
+function _applyLang() {
+  var s = STRINGS[currentLang];
+  var title   = document.getElementById('ttr-title');
+  var body    = document.getElementById('ttr-body');
+  var gotIt   = document.getElementById('ttr-got-it');
+  var langBtn = document.getElementById('ttr-lang');
+  var helpTip = document.getElementById('ttr-help-tip');
+
+  if (title)   title.textContent   = s.bubbleTitle;
+  if (body)    body.innerHTML      = s.body;
+  if (gotIt)   gotIt.textContent   = s.gotIt;
+  if (langBtn) langBtn.textContent = s.langBtn;
+  if (helpTip) helpTip.textContent = s.helpTip;
+
+  var p1 = document.getElementById('ttr-p1');
+  var p2 = document.getElementById('ttr-p2');
+  var p3 = document.getElementById('ttr-p3');
+  var p4 = document.getElementById('ttr-p4');
+  if (p1) p1.textContent = s.pill1;
+  if (p2) p2.textContent = s.pill2;
+  if (p3) p3.textContent = s.pill3;
+  if (p4) p4.textContent = s.pill4;
 }
 
 
@@ -298,6 +374,12 @@ function _dismiss() {
 document.addEventListener('DOMContentLoaded', function () {
   _injectStyles();
   _buildDOM();
+
+  /* Restore saved language */
+  try {
+    var savedLang = localStorage.getItem(LANG_KEY);
+    if (savedLang === 'tl') { currentLang = 'tl'; _applyLang(); }
+  } catch (e) {}
 
   var done = false;
   try { done = !!localStorage.getItem(STORAGE_KEY); } catch (e) {}
