@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seafarer Application</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" type="image/png" href="/shipicon.png" />
+</head>
+<body>
+
+  <div class="bg-layer" aria-hidden="true">
+    <div class="bg-circle bc1"></div>
+    <div class="bg-circle bc2"></div>
+    <div class="bg-circle bc3"></div>
+    <div class="bg-wave"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <div class="page-shell">
+    <div class="form-card" id="formCard">
+
+      <!-- HEADER -->
+      <header class="card-header">
+        <div class="header-inner">
+          <div class="logo-wrap">
+            <img src="/logo.png" alt="Golden Galleon Ship Management Services, Inc." class="logo-img" />
+          </div>
+          <div class="header-divider"></div>
+          <div class="header-text">
+            <div class="header-tagline">Seafarer Application Form</div>
+            <div class="header-sub">Room 312–313, Intramuros Corporate Plaza, Manila</div>
+          </div>
+        </div>
+      </header>
+
+      <!-- GOLD STRIPE -->
+      <div class="yellow-stripe"></div>
+
+      <!-- STEPPER -->
+      <nav class="stepper" aria-label="Form steps">
+        <div class="steps-row">
+
+          <div class="step-item">
+            <button class="step-circle active" id="sc1" onclick="jumpToStep(1)" aria-label="Step 1">
+              <span class="sc-num">1</span>
+              <span class="sc-check">&#10003;</span>
+            </button>
+            <div class="step-label active" id="sl1">
+              <span class="sl-sub">Step 1</span>
+              <strong class="sl-main">Position</strong>
+            </div>
+          </div>
+
+          <div class="step-connector" id="conn1"><div class="conn-fill" id="connfill1"></div></div>
+
+          <div class="step-item">
+            <button class="step-circle" id="sc2" onclick="jumpToStep(2)" aria-label="Step 2">
+              <span class="sc-num">2</span>
+              <span class="sc-check">&#10003;</span>
+            </button>
+            <div class="step-label" id="sl2">
+              <span class="sl-sub">Step 2</span>
+              <strong class="sl-main">Personal</strong>
+            </div>
+          </div>
+
+          <div class="step-connector" id="conn2"><div class="conn-fill" id="connfill2"></div></div>
+
+          <div class="step-item">
+            <button class="step-circle" id="sc3" onclick="jumpToStep(3)" aria-label="Step 3">
+              <span class="sc-num">3</span>
+              <span class="sc-check">&#10003;</span>
+            </button>
+            <div class="step-label" id="sl3">
+              <span class="sl-sub">Step 3</span>
+              <strong class="sl-main">Documents</strong>
+            </div>
+          </div>
+
+          <div class="step-connector" id="conn3"><div class="conn-fill" id="connfill3"></div></div>
+
+          <div class="step-item">
+            <button class="step-circle" id="sc4" onclick="jumpToStep(4)" aria-label="Step 4">
+              <span class="sc-num">4</span>
+              <span class="sc-check">&#10003;</span>
+            </button>
+            <div class="step-label" id="sl4">
+              <span class="sl-sub">Step 4</span>
+              <strong class="sl-main">Review</strong>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="progress-track" aria-hidden="true">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-glow" id="progressGlow"></div>
+        </div>
+      </nav>
+
+      <!-- FORM BODY -->
+      <main class="form-body">
+
+        <!-- STEP 1 -->
+        <section class="step-panel active" id="panel1">
+          <div class="panel-head">
+            <div>
+              <div class="section-title">Position &amp; Availability</div>
+              <div class="section-sub">Select the role you are applying for and your availability details.</div>
+            </div>
+          </div>
+
+          <div class="field-row single">
+            <div class="field" id="f-position">
+              <label for="position">Position Applied For <span class="req">*</span></label>
+              <select id="position">
+                <option value="">— Select a position —</option>
+                <optgroup label="Deck Officers">
+                  <option>Master</option>
+                  <option>Chief Officer</option>
+                  <option>Second Officer</option>
+                  <option>Third Officer</option>
+                  <option>Deck Cadet</option>
+                </optgroup>
+                <optgroup label="Engine Officers">
+                  <option>Chief Engineer</option>
+                  <option>Second Engineer</option>
+                  <option>Third Engineer</option>
+                  <option>Engine Cadet</option>
+                </optgroup>
+                <optgroup label="Ratings">
+                  <option>Able Bodied Seaman (ABS)</option>
+                  <option>Oiler</option>
+                  <option>Cook</option>
+                </optgroup>
+              </select>
+              <span class="field-error">&#9888; Please select a position.</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field" id="f-avail">
+              <label for="avail">Availability Date <span class="req">*</span></label>
+              <input type="date" id="avail" />
+              <span class="field-error">&#9888; Please enter your availability date.</span>
+            </div>
+            <div class="field">
+              <label for="contract">Contract Duration</label>
+              <select id="contract">
+                <option value="">— Select —</option>
+                <option>3 months</option>
+                <option>6 months</option>
+                <option>9 months</option>
+                <option>12 months</option>
+                <option>Open / Negotiable</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row single">
+            <div class="field">
+              <label for="experience">Years of Sea Experience</label>
+              <select id="experience">
+                <option value="">— Select —</option>
+                <option>Fresh Graduate / No Experience</option>
+                <option>Less than 1 year</option>
+                <option>1–2 years</option>
+                <option>3–5 years</option>
+                <option>6–10 years</option>
+                <option>More than 10 years</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row single">
+            <div class="field">
+              <label for="notes1">Remarks or Notes</label>
+              <textarea id="notes1" placeholder="e.g. LCT experience, specific vessel types, special skills..."></textarea>
+            </div>
+          </div>
+
+          <div class="nav-row">
+            <div class="nav-left">
+              <span class="nav-hint">&#9432; Required fields must be filled to advance</span>
+            </div>
+            <div class="nav-right">
+              <button class="btn-next" onclick="goStep(2)">Next &rarr;</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 2 -->
+        <section class="step-panel" id="panel2">
+          <div class="panel-head">
+            <div>
+              <div class="section-title">Personal Information</div>
+              <div class="section-sub">Provide accurate details as they appear on your official documents.</div>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field" id="f-fname">
+              <label for="fname">First Name <span class="req">*</span></label>
+              <input type="text" id="fname" placeholder="Juan" />
+              <span class="field-error">&#9888; First name is required.</span>
+            </div>
+            <div class="field">
+              <label for="mname">Middle Name</label>
+              <input type="text" id="mname" placeholder="dela" />
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field" id="f-lname">
+              <label for="lname">Last Name <span class="req">*</span></label>
+              <input type="text" id="lname" placeholder="Cruz" />
+              <span class="field-error">&#9888; Last name is required.</span>
+            </div>
+            <div class="field">
+              <label for="suffix">Suffix</label>
+              <select id="suffix">
+                <option value="">None</option>
+                <option>Jr.</option><option>Sr.</option>
+                <option>II</option><option>III</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row triple">
+            <div class="field" id="f-dob">
+              <label for="dob">Date of Birth <span class="req">*</span></label>
+              <input type="date" id="dob" />
+              <span class="field-error">&#9888; Date of birth is required.</span>
+            </div>
+            <div class="field">
+              <label for="age">Age</label>
+              <input type="number" id="age" placeholder="30" min="18" max="70" />
+            </div>
+            <div class="field">
+              <label for="civil">Civil Status</label>
+              <select id="civil">
+                <option value="">— Select —</option>
+                <option>Single</option><option>Married</option>
+                <option>Widowed</option><option>Separated</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-row single">
+            <div class="field" id="f-address">
+              <label for="address">Complete Address <span class="req">*</span></label>
+              <input type="text" id="address" placeholder="Street, Barangay, City / Municipality, Province, ZIP" />
+              <span class="field-error">&#9888; Address is required.</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field" id="f-contact">
+              <label for="contact">Contact Number <span class="req">*</span></label>
+              <input type="tel" id="contact" placeholder="+63 9XX XXX XXXX" />
+              <span class="field-error">&#9888; Contact number is required.</span>
+            </div>
+            <div class="field" id="f-email">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" placeholder="juan@example.com" />
+              <span class="field-error">&#9888; Valid email is required.</span>
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="emname">Emergency Contact Name</label>
+              <input type="text" id="emname" placeholder="Full name" />
+            </div>
+            <div class="field">
+              <label for="emnum">Emergency Contact Number</label>
+              <input type="tel" id="emnum" placeholder="+63 9XX XXX XXXX" />
+            </div>
+          </div>
+
+          <div class="nav-row">
+            <div class="nav-left">
+              <button class="btn-back" onclick="goStep(1)">&larr; Back</button>
+            </div>
+            <div class="nav-right">
+              <button class="btn-next" onclick="goStep(3)">Next &rarr;</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 3 -->
+        <section class="step-panel" id="panel3">
+          <div class="panel-head">
+            <div>
+              <div class="section-title">Documents &amp; Training</div>
+              <div class="section-sub">Tick all documents and certificates you currently hold.</div>
+            </div>
+          </div>
+
+          <div class="notice">
+            &#128204; Bring original copies to your interview at Room 312–313, Intramuros Corporate Plaza, Manila.
+          </div>
+
+          <div class="checklist-section">
+            <div class="checklist-title">Documents Held</div>
+            <div class="checklist">
+              <label><input type="checkbox" class="doc-cb" value="Seaman Book (SIRB)" /><span>Seaman Book (SIRB)</span></label>
+              <label><input type="checkbox" class="doc-cb" value="COC – Certificate of Competency (PRC)" /><span>COC – Certificate of Competency</span></label>
+              <label><input type="checkbox" class="doc-cb" value="D-COC MARINA Certificate" /><span>D-COC MARINA Certificate</span></label>
+              <label><input type="checkbox" class="doc-cb" value="Endorsement Certificate (PRC)" /><span>Endorsement Certificate (PRC)</span></label>
+              <label><input type="checkbox" class="doc-cb" value="PRC License" /><span>PRC License</span></label>
+              <label><input type="checkbox" class="doc-cb" value="Sea Service Record" /><span>Sea Service Record</span></label>
+              <label><input type="checkbox" class="doc-cb" value="MARINA License (MDM2)" /><span>MARINA License (MDM2)</span></label>
+              <label><input type="checkbox" class="doc-cb" value="Yellow Card" /><span>Yellow Card</span></label>
+            </div>
+          </div>
+
+          <div class="checklist-section" style="margin-top:20px;">
+            <div class="checklist-title">Training Certificates</div>
+            <div class="checklist">
+              <label><input type="checkbox" class="trn-cb" value="Basic Training Certificate" /><span>Basic Training</span></label>
+              <label><input type="checkbox" class="trn-cb" value="PSSR Certificate" /><span>PSSR Certificate</span></label>
+              <label><input type="checkbox" class="trn-cb" value="PSCRB" /><span>PSCRB</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Ship Security Officer (SSO)" /><span>Ship Security Officer (SSO)</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Ship Security Awareness (SSA)" /><span>Ship Security Awareness (SSA)</span></label>
+              <label><input type="checkbox" class="trn-cb" value="GMDSS Certificate" /><span>GMDSS Certificate</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Radar Simulator Course (RSC)" /><span>Radar Simulator (RSC)</span></label>
+              <label><input type="checkbox" class="trn-cb" value="SRROC" /><span>SRROC</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Medical Care" /><span>Medical Care</span></label>
+              <label><input type="checkbox" class="trn-cb" value="PADAMS" /><span>PADAMS</span></label>
+              <label><input type="checkbox" class="trn-cb" value="ISM Certificate" /><span>ISM Certificate</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Deck Watch Keeping" /><span>Deck Watch Keeping</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Engine Watch Keeping" /><span>Engine Watch Keeping</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Radar Observation Plotting (R.O.P)" /><span>Radar Observation Plotting</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Marpol I–VI" /><span>Marpol I–VI</span></label>
+              <label><input type="checkbox" class="trn-cb" value="Culinary Certificate" /><span>Culinary Certificate</span></label>
+            </div>
+          </div>
+
+          <div class="field-row single" style="margin-top:24px;">
+            <div class="field">
+              <label>Upload Resume &amp; Supporting Documents</label>
+              <div class="upload-zone" id="uploadZone"
+                   onclick="document.getElementById('fileInput').click()"
+                   ondragover="handleDragOver(event)"
+                   ondrop="handleDrop(event)">
+                <div class="upload-icon-wrap">
+                  <svg width="36" height="36" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 4v18M9 12l7-8 7 8" stroke="#1E5AA8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M4 24v2a2 2 0 002 2h20a2 2 0 002-2v-2" stroke="#1E5AA8" stroke-width="2.2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+                <p class="upload-text">Drag &amp; drop files here</p>
+                <span class="upload-cta">Browse Files</span>
+                <div class="file-list" id="fileList"></div>
+              </div>
+              <input type="file" id="fileInput" multiple style="display:none;" onchange="handleFiles(this)" />
+              <div class="field-hint">PDF, JPG, PNG, DOC — Max 10 MB per file</div>
+            </div>
+          </div>
+
+          <div class="nav-row">
+            <div class="nav-left">
+              <button class="btn-back" onclick="goStep(2)">&larr; Back</button>
+            </div>
+            <div class="nav-right">
+              <button class="btn-next" onclick="goStep(4)">Review &rarr;</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 4 -->
+        <section class="step-panel" id="panel4">
+          <div class="panel-head">
+            <div>
+              <div class="section-title">Review Your Application</div>
+              <div class="section-sub">Verify all details before submitting. Use <strong>Edit</strong> to make corrections.</div>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-hdr"><h3>Position Details</h3><button class="btn-edit" onclick="jumpToStep(1)">&#9998; Edit</button></div>
+            <div class="review-grid">
+              <div class="review-item"><div class="rl">Position Applied</div><div class="rv" id="rv-position">—</div></div>
+              <div class="review-item"><div class="rl">Availability</div><div class="rv" id="rv-avail">—</div></div>
+              <div class="review-item"><div class="rl">Contract Duration</div><div class="rv" id="rv-contract">—</div></div>
+              <div class="review-item"><div class="rl">Sea Experience</div><div class="rv" id="rv-exp">—</div></div>
+              <div class="review-item full"><div class="rl">Remarks</div><div class="rv" id="rv-notes">—</div></div>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-hdr"><h3>Personal Information</h3><button class="btn-edit" onclick="jumpToStep(2)">&#9998; Edit</button></div>
+            <div class="review-grid">
+              <div class="review-item full"><div class="rl">Full Name</div><div class="rv" id="rv-name">—</div></div>
+              <div class="review-item"><div class="rl">Date of Birth</div><div class="rv" id="rv-dob">—</div></div>
+              <div class="review-item"><div class="rl">Age / Civil Status</div><div class="rv" id="rv-civil">—</div></div>
+              <div class="review-item full"><div class="rl">Address</div><div class="rv" id="rv-address">—</div></div>
+              <div class="review-item"><div class="rl">Contact Number</div><div class="rv" id="rv-contact">—</div></div>
+              <div class="review-item"><div class="rl">Email Address</div><div class="rv" id="rv-email">—</div></div>
+              <div class="review-item"><div class="rl">Emergency Contact</div><div class="rv" id="rv-emname">—</div></div>
+              <div class="review-item"><div class="rl">Emergency Number</div><div class="rv" id="rv-emnum">—</div></div>
+            </div>
+          </div>
+
+          <div class="review-section">
+            <div class="review-hdr"><h3>Documents &amp; Certificates</h3><button class="btn-edit" onclick="jumpToStep(3)">&#9998; Edit</button></div>
+            <div class="review-docs-body">
+              <div class="review-item" style="margin-bottom:12px;"><div class="rl">Documents Held</div><div class="rv tag-list" id="rv-docs">—</div></div>
+              <div class="review-item"><div class="rl">Training Certificates</div><div class="rv tag-list" id="rv-trn">—</div></div>
+            </div>
+          </div>
+
+          <div class="nav-row">
+            <div class="nav-left">
+              <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
+            </div>
+            <div class="nav-right">
+              <button class="btn-submit" onclick="submitForm()">&#10003; Submit Application</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SUCCESS -->
+        <section class="step-panel" id="panelSuccess">
+          <div class="success-card">
+            <div class="success-ring">
+              <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                <path d="M8 20l9 9L32 12" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h2 class="success-title">Application Submitted!</h2>
+            <p class="success-body">Thank you for applying to Golden Galleon Ship Management Services, Inc. Our crewing team will review your application shortly.</p>
+            <p class="success-contact">+63 (2) 8533-2791 &nbsp;&bull;&nbsp; Room 312–313, Intramuros Corporate Plaza, Manila</p>
+            <div class="success-actions">
+              <button class="btn-pdf" onclick="generatePDF()">&#11015; Download PDF</button>
+              <button class="btn-new" onclick="resetForm()">New Application</button>
+            </div>
+          </div>
+        </section>
+
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="card-footer">
+        <span>&#169; 2024 Golden Galleon Ship Management Services, Inc. &mdash; Intramuros, Manila</span>
+      </footer>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
